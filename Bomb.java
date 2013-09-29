@@ -39,7 +39,9 @@ public class Bomb {
     public int getyPos(){
         return this.yPos;
     }*/
-
+    public Position getPosition(){
+        return position;
+    }
 
     public void activateBomb(){
         final Action explode = new AbstractAction() {

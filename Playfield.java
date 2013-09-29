@@ -7,24 +7,18 @@ import java.util.Random;
  * Templates.
  */
 public class Playfield {
-    //Fields
+
     private BlockType[][] fieldArray;
     private int row;
     private int column;
     private List<ListenerHandler> myListener = new ArrayList<ListenerHandler>();
 
-
-
-
-    //Constructor
     public Playfield(int row, int column){
         this.row = row;
         this.column = column;
         this.fieldArray = new BlockType[row][column];
     }
 
-
-    //Methods
     public void fillFieldArray(){
         Random random = new Random();
         for(int i=0; i < this.row; i++){
@@ -60,7 +54,6 @@ public class Playfield {
         this.fieldArray[position.getY()][position.getX()]=data;
         notifyListener();
     }
-
 
     public int getRow() {
         return row;
