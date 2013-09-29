@@ -11,16 +11,14 @@ public class Gametest {
         int column = 21;
         Position startPosition1 = new Position(1,1);
         Position startPosition2 = new Position(row-2, column-2);
-        Playfield playfield = new Playfield(row, column);
         Playfield background = new Playfield(row, column);
-        Player player = new Player(startPosition1, background, playfield);
+        Player player = new Player(startPosition2, background);
         background.fillFieldArray();
-        playfield.createFrontPlayfield(background);
 
         new Menu();
-        final GameFrame frame = new GameFrame(playfield, background, player);
+        final GameFrame frame = new GameFrame(background, player);
 
-        frame.setSize(playfield.getRow() * 21, playfield.getColumn() * 21);
+        frame.setSize(background.getRow() * 21, background.getColumn() * 21);
         frame.setVisible(true);
 
     }

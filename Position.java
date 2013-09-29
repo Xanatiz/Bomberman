@@ -15,6 +15,16 @@ public class Position {
         this.y=y;
     }
 
+    public Position(Position position) {
+        this.x=position.getX();
+        this.y=position.getY();
+    }
+
+    public void copy(Position position){
+        x=position.getX();
+        y=position.getY();
+    }
+
     public int getX(){
         return x;
     }
@@ -31,35 +41,30 @@ public class Position {
         y=newY;
     }
 
-    public void nextRight(Playfield background, Playfield frontPlayfield){
+    public void nextRight(Playfield playfield){
         x++;
-        if(!isWalkable(background, frontPlayfield)){
+        if(!playfield.getData(this).isWalkable()){
             x--;
         }
     }
 
-    public void nextLeft(Playfield background, Playfield frontPlayfield){
+    public void nextLeft(Playfield playfield){
         x--;
-        if(!isWalkable(background, frontPlayfield)){
+        if(!playfield.getData(this).isWalkable()){
             x++;
         }
     }
-    public void nextUp(Playfield background, Playfield frontPlayfield){
+    public void nextUp(Playfield playfield){
         y--;
-        if(!isWalkable(background, frontPlayfield)){
+        if(!playfield.getData(this).isWalkable()){
             y++;
         }
     }
 
-    public void nextDown(Playfield background, Playfield frontPlayfield){
+    public void nextDown(Playfield playfield){
         y++;
-        if(!isWalkable(background, frontPlayfield)){
+        if(!playfield.getData(this).isWalkable()){
             y--;
         }
     }
-
-    public boolean isWalkable(Playfield background, Playfield frontPlayfield){
-        return ((background.getData(this).isWalkable()) && (frontPlayfield.getData(this) == null));
-    }
-
 }

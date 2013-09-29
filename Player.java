@@ -12,16 +12,15 @@ public class Player {
 
     private int standardExplosionRadius = 3;
     private Playfield background;
-    private Playfield frontPlayfield;
+//    private Playfield frontPlayfield;
     private Position position;
     private int explosionRadius;
     public boolean activeBomb;
     final JFrame frame = new JFrame();
 
-    public Player(Position position, Playfield background, Playfield frontPlayfield) {
+    public Player(Position position, Playfield background) {
         this.position = position;
         this.background = background;
-        this.frontPlayfield = frontPlayfield;
         this.explosionRadius = standardExplosionRadius;
         this.activeBomb = false;
     }
@@ -39,34 +38,24 @@ public class Player {
     }
 
     public void moveRight(){
-        position.nextRight(background, frontPlayfield);
-        //System.out.println("Current X: " + getXPosition());
-        //System.out.println("Current Y: " + getYPosition());
-
+        position.nextRight(background);
     }
 
     public void moveLeft(){
-        position.nextLeft(background, frontPlayfield);
-        //System.out.println("Current X: " + getXPosition());
-        //System.out.println("Current Y: " + getYPosition());
+        position.nextLeft(background);
     }
 
     public void moveUp(){
-        position.nextUp(background, frontPlayfield);
-        //System.out.println("Current X: " + getXPosition());
-        //System.out.println("Current Y: " + getYPosition());
-
+        position.nextUp(background);
     }
 
     public void moveDown(){
-        position.nextDown(background, frontPlayfield);
-        //System.out.println("Current X: " + getXPosition());
-        //System.out.println("Current Y: " + getYPosition());
+        position.nextDown(background);
     }
 
     public void dropBomb(){
         if(!activeBomb){
-            Bomb bomb = new Bomb(position.getX(), position.getY(), explosionRadius, frontPlayfield, background, this);
+            Bomb bomb = new Bomb(new Position(position), explosionRadius, background, this);
             activeBomb=true;
             bomb.activateBomb();
 
@@ -79,7 +68,7 @@ public class Player {
     // Lade in dessa tre metoder. Simpla. Första två kollar bara om bomben och spelares nuvarande position är i samma rad/kolumn.
     // Tredje metoder kollar bara om bombens X - spelares X <= explosionRadius(3) samt om de är i samma kolumn eller rad.
     // likadant för Y-positionerna.
-
+/*
     public boolean sameRow(Bomb bomb){
         return this.getYPosition() == bomb.getyPos();
     }
@@ -108,5 +97,5 @@ public class Player {
         }
         return false;
 
-    }
+    }*/
 }

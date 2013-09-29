@@ -11,11 +11,9 @@ import java.awt.geom.Rectangle2D;
  * To change this template use File | Settings | File Templates.
  */
 public class GameComponent extends JComponent implements ListenerHandler {
-    Playfield playfield;
     Playfield background;
     Player player;
-    public GameComponent(Playfield playfield, Playfield background, Player player){
-        this.playfield = playfield;
+    public GameComponent(Playfield background, Player player){
         this.background = background;
         this.player = player;
         this.setLayout(new BorderLayout());
@@ -26,28 +24,24 @@ public class GameComponent extends JComponent implements ListenerHandler {
         repaint();
     }
 
-
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         final Graphics2D g2 = (Graphics2D)g;
 
-        for (int i = 0; i < this.playfield.getRow(); i++){
-            for (int j = 0; j < this.playfield.getColumn(); j++){
+        for (int i = 0; i < background.getRow(); i++){
+            for (int j = 0; j < background.getColumn(); j++){
                 if(player.getPosition().getX()==j && player.getPosition().getY()==i){
                     g2.setColor(BlockType.PLAYER.getColor());
                 }
-                else if (this.playfield.getData(i,j) != null){
-                    g2.setColor(this.playfield.getData(i, j).getColor());
-                }
-               else{
+                else{
                     g2.setColor(this.background.getData(i, j).getColor());
                 }
-
                 g2.draw(new Rectangle2D.Double(j*20, i*20,20,20));
                 g2.fillRect(j*20,i*20,20,20);
             }
         }
     }
+
     private void addBindings(){
         InputMap map1 =getInputMap(JComponent.WHEN_FOCUSED);
         InputMap map2 =getInputMap(JComponent.WHEN_FOCUSED);

@@ -26,26 +26,18 @@ public class Playfield {
 
     //Methods
     public void fillFieldArray(){
+        Random random = new Random();
         for(int i=0; i < this.row; i++){
             for(int j=0; j < this.column; j++){
                 if ((i==0)||(i==this.row-1)||(j==0)||(j==this.column-1)||((i%2==0)&&(j%2==0))){
                     this.fieldArray[i][j]=BlockType.WALL;}
                 else if((i==1&&j<4)||(i<4&&j==1)||(i==this.row-2&&j>this.column-5)||(i>this.row-5&&j==this.column-2)){
                     this.fieldArray[i][j]=BlockType.SPAWNGROUND;}
+                else if((random.nextInt(100)<79)){
+                    this.fieldArray[i][j]=BlockType.BOX;
+                }
                 else{
                     this.fieldArray[i][j]=BlockType.GROUND;
-
-                }
-            }
-        }
-    }
-
-    public void createFrontPlayfield(Playfield background){
-        Random random = new Random();
-        for(int i=0; i < this.row; i++){
-            for(int j=0; j < this.column; j++){
-                if((background.getData(i, j) == BlockType.GROUND)&&(random.nextInt(100)<79)){
-                    this.fieldArray[i][j]=BlockType.BOX;
                 }
             }
         }
@@ -79,15 +71,15 @@ public class Playfield {
     }
 
     public void addListener(ListenerHandler lh){
-         this.myListener.add(lh);
-     }
+        this.myListener.add(lh);
+    }
 
-     private void notifyListener(){
-         for (int i = 0; i < myListener.size(); i++) {
-             ListenerHandler tmp = myListener.get(i);
-             tmp.updateBoard();
-         }
-     }
+    private void notifyListener(){
+        for (int i = 0; i < myListener.size(); i++) {
+            ListenerHandler tmp = myListener.get(i);
+            tmp.updateBoard();
+        }
+    }
 
 
 }

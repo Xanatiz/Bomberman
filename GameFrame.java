@@ -8,10 +8,10 @@ import java.awt.*;
 public class GameFrame extends JFrame{
 
 
-    public GameFrame(Playfield playfield, Playfield background, Player player){
+    public GameFrame(Playfield background, Player player){
         super("test");
-        GameComponent bomberman = new GameComponent(playfield, background, player);
-        playfield.addListener(bomberman);
+        GameComponent bomberman = new GameComponent(background, player);
+        background.addListener(bomberman);
         this.setLayout(new BorderLayout());
         this.add(bomberman, BorderLayout.CENTER);
 
