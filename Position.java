@@ -20,11 +20,6 @@ public class Position {
         this.y=position.getY();
     }
 
-    public void copy(Position position){
-        x=position.getX();
-        y=position.getY();
-    }
-
     public int getX(){
         return x;
     }

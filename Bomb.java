@@ -24,21 +24,6 @@ public class Bomb {
         this.player=player;
     }
 
-   /* public int getBombXPosition(){
-        return this.position.getX();
-    }
-
-    public int getBombYPosition(){
-        return this.position.getY();
-    }*/
-
-    /*public int getxPos(){
-        return this.xPos;
-    }
-
-    public int getyPos(){
-        return this.yPos;
-    }*/
     public Position getPosition(){
         return position;
     }
@@ -59,20 +44,21 @@ public class Bomb {
     public void bang(){
         timer.stop();
         player.deactivateBomb();
-        background.setData(position, originalBlock);
-
         bangRadius(new Position(position), true, 1);
         bangRadius(new Position(position), true, -1);
         bangRadius(new Position(position), false, 1);
         bangRadius(new Position(position), false, -1);
+        background.setData(position, originalBlock);
     }
     //Kommer placera fel block när Player dödas på ett SPAWNBLOCK.
+    //Axis == true => X-axis
+    //Axis == false => Y-axis
     public void bangRadius(Position position, boolean axis, int n){
         for(int i = 0; i <explosionRadius; i++){
             if (axis)
                 position.setX(position.getX()+n);
             else
-                position.setY(position.getY()+n);
+                position.setY(position.getY() + n);
             if(background.getData(position).isDestructible()&&!background.getData(position).isWalkable()){
                 background.setData(position, BlockType.GROUND);
                 break;
@@ -82,42 +68,4 @@ public class Bomb {
             }
         }
     }
-/**
-    public boolean checkVicinity(){
-        for(int i = xPos; i>=xPos-explosionRadius; i--){
-            if ((background.getData(yPos, i).isDestructible())&&((frontPlayfield.getData(yPos, i)!=null) && (frontPlayfield.getData(yPos, i).isDestructible()))){
-                return true;
-                //frontPlayfield.setData(yPos, i, null);
-            }
-            else if (!background.getData(yPos, i).isDestructible())
-                return false;
-        }
-        for(int i = xPos; i<=xPos+explosionRadius; i++){
-            if ((background.getData(yPos, i).isDestructible())&&((frontPlayfield.getData(yPos, i)!=null) && (frontPlayfield.getData(yPos, i).isDestructible()))){
-                return true;
-                //frontPlayfield.setData(yPos, i, null);
-            }
-            else if (!background.getData(yPos, i).isDestructible())
-                return false;
-        }
-        for(int i = yPos; i>=yPos-explosionRadius; i--){
-            if ((background.getData(i, xPos).isDestructible())&&((frontPlayfield.getData(i, xPos)!=null) && (frontPlayfield.getData(i, xPos).isDestructible()))){
-                return true;
-                //frontPlayfield.setData(i, xPos, null);
-            }
-            else if (!background.getData(i, xPos).isDestructible())
-                return false;
-        }
-        for(int i = yPos; i<=yPos+explosionRadius; i++){
-            if ((background.getData(i, xPos).isDestructible())&&((frontPlayfield.getData(i, xPos)!=null) && (frontPlayfield.getData(i, xPos).isDestructible()))){
-                return true;
-                //frontPlayfield.setData(i, xPos, null);
-            }
-            else if (!background.getData(i, xPos).isDestructible())
-                return false;
-        }
-        return false;
-
-    }
-*/
 }
