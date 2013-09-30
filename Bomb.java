@@ -61,13 +61,9 @@ public class Bomb {
                 position.setY(position.getY() + n);
             if(position.equals(player.getPosition())){
                 player.kill();
-                System.out.println("DEAD");
                 break;
             }
             else if(background.getData(position).isDestructible()&&!background.getData(position).isWalkable()){
-                if(position.equals(player.getPosition())){
-                    System.out.println("MMAMA");
-                }
                 background.setData(position, BlockType.GROUND);
                 break;
             }
