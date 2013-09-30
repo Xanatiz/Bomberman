@@ -3,8 +3,10 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * Created with IntelliJ IDEA. User: cake Date: 2013-09-25 Time: 13:17 To change this template use File | Settings | File
- * Templates.
+ * Created with IntelliJ IDEA.
+ * User: cake Date: 2013-09-25
+ * Time: 13:17
+ * To change this template use File | Settings | File Templates.
  */
 public class Playfield {
 

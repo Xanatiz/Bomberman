@@ -30,7 +30,7 @@ public class Bomb {
     public void activateBomb(){
         final Action explode = new AbstractAction() {
             public void actionPerformed(ActionEvent e){
-                bang();
+                explode();
             }
         };
         timer = new Timer(3000, explode);
@@ -40,19 +40,19 @@ public class Bomb {
         timer.start();
     }
 
-    public void bang(){
+    public void explode(){
         timer.stop();
         player.deactivateBomb();
-        bangRadius(new Position(position), true, 1);
-        bangRadius(new Position(position), true, -1);
-        bangRadius(new Position(position), false, 1);
-        bangRadius(new Position(position), false, -1);
+        explosionRadius(new Position(position), true, 1);
+        explosionRadius(new Position(position), true, -1);
+        explosionRadius(new Position(position), false, 1);
+        explosionRadius(new Position(position), false, -1);
         background.setData(position, originalBlock);
     }
 
     //Axis == true => X-axis
     //Axis == false => Y-axis
-    public void bangRadius(Position position, boolean axis, int n){
+    public void explosionRadius(Position position, boolean axis, int n){
         for(int i = 0; i <explosionRadius; i++){
             if (axis)
                 position.setX(position.getX()+n);
