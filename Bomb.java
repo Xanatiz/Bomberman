@@ -16,7 +16,6 @@ public class Bomb {
     private Player player;
     private Position position;
 
-    // Bomb får ta in x- och y-koordinater istället för position. kanske går med position också men då blir player helt fuckad. lätt fixat kanske men nu är det såhär
     public Bomb(Position position, int explosionRadius, Playfield background, Player player){
         this.position=position;
         this.explosionRadius = explosionRadius;
@@ -50,7 +49,7 @@ public class Bomb {
         bangRadius(new Position(position), false, -1);
         background.setData(position, originalBlock);
     }
-    //Kommer placera fel block när Player dödas på ett SPAWNBLOCK.
+
     //Axis == true => X-axis
     //Axis == false => Y-axis
     public void bangRadius(Position position, boolean axis, int n){
