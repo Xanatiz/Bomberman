@@ -36,6 +36,16 @@ public class Position {
         y=newY;
     }
 
+    public String put(){
+        StringBuilder sb = new StringBuilder();
+        sb.append("x: "+x+" y: "+y);
+        return sb.toString();
+    }
+
+    public boolean equals(Position position){
+        return x==position.getX() && y==position.getY();
+    }
+
     public void nextRight(Playfield playfield){
         x++;
         if(!playfield.getData(this).isWalkable()){

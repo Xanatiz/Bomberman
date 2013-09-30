@@ -30,7 +30,7 @@ public class GameComponent extends JComponent implements ListenerHandler {
 
         for (int i = 0; i < background.getRow(); i++){
             for (int j = 0; j < background.getColumn(); j++){
-                if(player.getPosition().getX()==j && player.getPosition().getY()==i){
+                if(player.getPosition().getX()==j && player.getPosition().getY()==i&&player.isAlive()){
                     g2.setColor(BlockType.PLAYER.getColor());
                 }
                 else{

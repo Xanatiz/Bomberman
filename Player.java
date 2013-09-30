@@ -14,17 +14,31 @@ public class Player {
     private Playfield background;
     private Position position;
     private int explosionRadius;
-    public boolean activeBomb;
+    private boolean alive;
+    private boolean activeBomb;
 
     public Player(Position position, Playfield background) {
         this.position = position;
         this.background = background;
         this.explosionRadius = standardExplosionRadius;
+        this.alive = true;
         this.activeBomb = false;
     }
 
     public Position getPosition(){
         return position;
+    }
+
+    public boolean isAlive(){
+        return alive;
+    }
+
+    public boolean isActiveBomb(){
+        return activeBomb;
+    }
+
+    public void kill(){
+        alive=false;
     }
 
     public void moveRight(){
