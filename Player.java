@@ -10,19 +10,20 @@ import java.math.*;
  */
 public class Player {
 
-    private int standardExplosionRadius = 3;
     private Playfield background;
     private Position position;
     private int explosionRadius;
     private boolean alive;
-    private boolean activeBomb;
+    private int numberOfBombs;
+    private int activeBombs;
 
     public Player(Position position, Playfield background) {
         this.position = position;
         this.background = background;
-        this.explosionRadius = standardExplosionRadius;
+        this.explosionRadius = 3;
         this.alive = true;
-        this.activeBomb = false;
+        this.numberOfBombs=1;
+        this.activeBombs=0;
     }
 
     public Position getPosition(){
@@ -33,12 +34,16 @@ public class Player {
         return alive;
     }
 
-    public boolean isActiveBomb(){
-        return activeBomb;
-    }
-
     public void kill(){
         alive=false;
+    }
+
+    public void improveNumberOfBombs(){
+        numberOfBombs++;
+    }
+
+    public void improveExplosionRadius(){
+        explosionRadius++;
     }
 
     public void moveRight(){
@@ -58,13 +63,13 @@ public class Player {
     }
 
     public void dropBomb(){
-        if(!activeBomb){
+        if(activeBombs<numberOfBombs){
             Bomb bomb = new Bomb(new Position(position), explosionRadius, background, this);
-            activeBomb=true;
+            activeBombs++;
             bomb.activateBomb();
         }
     }
     public void deactivateBomb(){
-        activeBomb=false;
+        activeBombs--;
     }
 }

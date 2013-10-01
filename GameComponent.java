@@ -34,7 +34,7 @@ public class GameComponent extends JComponent implements ListenerHandler {
                     g2.setColor(BlockType.PLAYER.getColor());
                 }
                 else{
-                    g2.setColor(this.background.getData(i, j).getColor());
+                    g2.setColor(background.getData(i, j).getColor());
                 }
                 g2.draw(new Rectangle2D.Double(j*20, i*20,20,20));
                 g2.fillRect(j*20,i*20,20,20);

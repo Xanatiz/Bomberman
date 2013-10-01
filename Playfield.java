@@ -46,12 +46,12 @@ public class Playfield {
     public BlockType getData(Position position){
         return this.fieldArray[position.getY()][position.getX()];
     }
-
+/*
     public void setData(int row, int column, BlockType data){
         this.fieldArray[row][column]=data;
         notifyListener();
     }
-
+*/
     public void setData(Position position, BlockType data){
         this.fieldArray[position.getY()][position.getX()]=data;
         notifyListener();
