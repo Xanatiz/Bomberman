@@ -1,5 +1,3 @@
-import javax.swing.*;
-import java.math.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -38,6 +36,7 @@ public class Player {
 
     public void kill(){
         alive=false;
+        position.deathMove();
     }
 
     public void pickUp(){
@@ -46,52 +45,60 @@ public class Player {
         else if(background.getData(position)==BlockType.BOMBBOOST){
             numberOfBombs++;}
         else if(background.getData(position)==BlockType.KICKBOMB){
-            kickBomb=true;
-            System.out.println(kickBomb);}
+            kickBomb=true;}
         background.setData(position, BlockType.GROUND);
     }
 
-
     public void moveRight(){
-        position.nextRight();
-        if(background.getData(position).isPickUp()){
-            pickUp();
-        }
-        else if(!background.getData(position).isWalkable()){
-            position.nextLeft();
+        if(alive){
+            position.nextRight();
+            if(background.getData(position).isPickUp()){
+                pickUp();
+            }
+            else if(!background.getData(position).isWalkable()){
+                position.nextLeft();
+            }
         }
     }
 
     public void moveLeft(){
-        position.nextLeft();
-        if(background.getData(position).isPickUp()){
-            pickUp();
-        }
-        else if(!background.getData(position).isWalkable()){
-            position.nextRight();
+        if(alive){
+            position.nextLeft();
+            if(background.getData(position).isPickUp()){
+                pickUp();
+            }
+            else if(!background.getData(position).isWalkable()){
+                position.nextRight();
+            }
         }
     }
+
     public void moveUp(){
-        position.nextUp();
-        if(background.getData(position).isPickUp()){
-            pickUp();
-        }
-        else if(!background.getData(position).isWalkable()){
-            position.nextDown();
+        if(alive){
+            position.nextUp();
+            if(background.getData(position).isPickUp()){
+                pickUp();
+            }
+            else if(!background.getData(position).isWalkable()){
+                position.nextDown();
+            }
         }
     }
+
     public void moveDown(){
-        position.nextDown();
-        if(background.getData(position).isPickUp()){
-            pickUp();
-        }
-        else if(!background.getData(position).isWalkable()){
-            position.nextUp();
+        if(alive){
+            position.nextDown();
+            if(background.getData(position).isPickUp()){
+                pickUp();
+            }
+            else if(!background.getData(position).isWalkable()){
+                position.nextUp();
+            }
         }
     }
 
     public void dropBomb(){
-        if(activeBombs<numberOfBombs){
+        if(activeBombs<numberOfBombs&&alive&&background.getData(position).isWalkable()){
             Bomb bomb = new Bomb(new Position(position), explosionRadius, background, this);
             activeBombs++;
             bomb.activateBomb();

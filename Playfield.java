@@ -43,7 +43,7 @@ public class Playfield {
         Random random = new Random();
         int ifPowerUp = random.nextInt(100);
         int whichBox = random.nextInt(100);
-        System.out.println(fieldArray[position.getY()][position.getX()]==BlockType.BOX);
+
         if(fieldArray[position.getY()][position.getX()]==BlockType.BOX){
             if(whichBox<=32&&ifPowerUp<=49){
                 fieldArray[position.getY()][position.getX()]=BlockType.EXPLOSIONRADIUSBOOST;}

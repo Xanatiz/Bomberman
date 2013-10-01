@@ -53,6 +53,7 @@ public class Position {
     public void nextLeft(){
         x--;
     }
+
     public void nextUp(){
         y--;
     }
@@ -60,4 +61,10 @@ public class Position {
     public void nextDown(){
         y++;
     }
+
+    public void deathMove(){
+        x=0;
+        y=0;
+    }
+
 }

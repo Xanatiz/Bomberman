@@ -43,6 +43,8 @@ public class Bomb {
     public void explode(){
         timer.stop();
         player.deactivateBomb();
+        if(position.equals(player.getPosition())){
+            player.kill();}
         explosionRadius(new Position(position), true, 1);
         explosionRadius(new Position(position), true, -1);
         explosionRadius(new Position(position), false, 1);
@@ -53,6 +55,7 @@ public class Bomb {
     //Axis == true => X-axis
     //Axis == false => Y-axis
     public void explosionRadius(Position position, boolean axis, int n){
+
         for(int i = 0; i <explosionRadius; i++){
             if (axis)
                 position.setX(position.getX()+n);
