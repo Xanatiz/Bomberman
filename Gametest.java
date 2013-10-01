@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created with IntelliJ IDEA.
  * User: cake
@@ -12,7 +15,8 @@ public class Gametest {
         Position startPosition1 = new Position(1,1);
         Position startPosition2 = new Position(row-2, column-2);
         Playfield background = new Playfield(row, column);
-        Player player = new Player(startPosition2, background);
+        BombList bombList = new BombList();
+        Player player = new Player(startPosition2, background, bombList);
         background.fillFieldArray();
 
         new Menu();

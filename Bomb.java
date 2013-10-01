@@ -42,7 +42,8 @@ public class Bomb {
 
     public void explode(){
         timer.stop();
-        player.deactivateBomb();
+        player.deactivateBomb(position);
+        //kills player on top of the bomb
         if(position.equals(player.getPosition())){
             player.kill();}
         explosionRadius(new Position(position), true, 1);

@@ -8,19 +8,25 @@
  */
 public class Player {
 
-    private Playfield background;
     private Position position;
-    private int explosionRadius;
+    private Playfield background;
+    private BombList bombList;
     private boolean alive;
+    private int xDirection;
+    private int yDirection;
+    private int explosionRadius;
     private int numberOfBombs;
     private int activeBombs;
     private boolean kickBomb;
 
-    public Player(Position position, Playfield background) {
+    public Player(Position position, Playfield background, BombList bombList) {
         this.position = position;
         this.background = background;
-        this.explosionRadius = 3;
+        this.bombList=bombList;
         this.alive = true;
+        this.xDirection=0;
+        this.yDirection=0;
+        this.explosionRadius = 3;
         this.numberOfBombs=1;
         this.activeBombs=0;
         this.kickBomb=false;
@@ -54,8 +60,11 @@ public class Player {
             position.nextRight();
             if(background.getData(position).isPickUp()){
                 pickUp();
+                xDirection=1;
+                yDirection=0;
             }
-            else if(!background.getData(position).isWalkable()){
+//            else if(!(background.getData(position)==BlockType.BOMB)){}
+            else if(!background.getData(position).isWalkable()) {
                 position.nextLeft();
             }
         }
@@ -66,6 +75,8 @@ public class Player {
             position.nextLeft();
             if(background.getData(position).isPickUp()){
                 pickUp();
+                xDirection=-1;
+                yDirection=0;
             }
             else if(!background.getData(position).isWalkable()){
                 position.nextRight();
@@ -78,6 +89,8 @@ public class Player {
             position.nextUp();
             if(background.getData(position).isPickUp()){
                 pickUp();
+                xDirection=0;
+                yDirection=-1;
             }
             else if(!background.getData(position).isWalkable()){
                 position.nextDown();
@@ -90,6 +103,8 @@ public class Player {
             position.nextDown();
             if(background.getData(position).isPickUp()){
                 pickUp();
+                xDirection=0;
+                yDirection=1;
             }
             else if(!background.getData(position).isWalkable()){
                 position.nextUp();
@@ -100,11 +115,15 @@ public class Player {
     public void dropBomb(){
         if(activeBombs<numberOfBombs&&alive&&background.getData(position).isWalkable()){
             Bomb bomb = new Bomb(new Position(position), explosionRadius, background, this);
+            bombList.add(bomb);
             activeBombs++;
             bomb.activateBomb();
         }
     }
-    public void deactivateBomb(){
+
+    public void deactivateBomb(Position position){
+        bombList.remove(position);
         activeBombs--;
     }
+
 }

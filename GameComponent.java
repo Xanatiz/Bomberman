@@ -11,8 +11,9 @@ import java.awt.geom.Rectangle2D;
  * To change this template use File | Settings | File Templates.
  */
 public class GameComponent extends JComponent implements ListenerHandler {
-    Playfield background;
-    Player player;
+    private Playfield background;
+    private Player player;
+
     public GameComponent(Playfield background, Player player){
         this.background = background;
         this.player = player;
@@ -100,8 +101,6 @@ public class GameComponent extends JComponent implements ListenerHandler {
         getActionMap().put("dropBomb", dropBomb);
 
     }
-
-
 
 }
 
