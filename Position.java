@@ -42,6 +42,11 @@ public class Position {
         return sb.toString();
     }
 
+    public void nextPosition(int xDirection, int yDirection){
+        x+=xDirection;
+        y+=yDirection;
+    }
+
     public boolean equals(Position position){
         return x==position.getX() && y==position.getY();
     }

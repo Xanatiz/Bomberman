@@ -29,7 +29,7 @@ public class Playfield {
                     this.fieldArray[i][j]=BlockType.WALL;}
                 else if((i==1&&j<4)||(i<4&&j==1)||(i==this.row-2&&j>this.column-5)||(i>this.row-5&&j==this.column-2)){
                     this.fieldArray[i][j]=BlockType.SPAWNGROUND;}
-                else if((random.nextInt(100)<=79)){
+                else if((random.nextInt(100)<=59)){
                     this.fieldArray[i][j]=BlockType.BOX;
                 }
                 else{
@@ -76,6 +76,7 @@ public class Playfield {
         notifyListener();
     }
 
+
     public int getRow() {
         return row;
     }
@@ -95,5 +96,13 @@ public class Playfield {
         }
     }
 
-
+    public void clearFromExplosion(){
+        for(int i=0; i < this.row; i++){
+                  for(int j=0; j < this.column; j++){
+            if(fieldArray[i][j]==BlockType.EXPLOSION)
+                fieldArray[i][j]=BlockType.GROUND;
+            }
+        }
+        notifyListener();
+    }
 }

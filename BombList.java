@@ -28,7 +28,7 @@ public class BombList {
     }
 
     public void remove(Position position){
-        for (int i = 0; i < myList.size()-1; i++) {
+        for (int i = 0; i <= myList.size()-1; i++) {
             if(myList.get(i).getPosition().equals(position)){
                 myList.remove(i);
                 break;
@@ -36,4 +36,21 @@ public class BombList {
         }
     }
 
+    public void activateBomb(Position position){
+        for (int i = 0; i <= myList.size()-1; i++) {
+            if(myList.get(i).getPosition().equals(position)){
+                myList.get(i).activate();
+                break;
+            }
+        }
+    }
+
+    public void kickBomb(Position position, int xDirection, int yDirection){
+        for (int i = 0; i <= myList.size()-1; i++) {
+            if(myList.get(i).getPosition().equals(position)){
+                myList.get(i).kick(xDirection, yDirection);
+                break;
+            }
+        }
+    }
 }

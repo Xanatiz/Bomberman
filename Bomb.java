@@ -9,7 +9,7 @@ import java.awt.event.ActionEvent;
  * To change this template use File | Settings | File Templates.
  */
 public class Bomb {
-    private Timer timer;
+    private Timer timer, timer2;
     private int explosionRadius;
     private BlockType originalBlock;
     private Playfield background;
@@ -27,7 +27,7 @@ public class Bomb {
         return position;
     }
 
-    public void activateBomb(){
+    public void activate(){
         final Action explode = new AbstractAction() {
             public void actionPerformed(ActionEvent e){
                 explode();
@@ -38,6 +38,28 @@ public class Bomb {
         background.setData(position, BlockType.BOMB);
         timer.setCoalesce(true);
         timer.start();
+    }
+
+    public void kick(final int xDirection, final int yDirection){
+        final Position newPosition = new Position(position);
+        final Action fly = new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                newPosition.nextPosition(xDirection, yDirection);
+                //logiskt test med player är inte testat
+                if(background.getData(newPosition).isWalkable()&&(!newPosition.equals(player.getPosition()))){
+                    background.setData(position, originalBlock);
+                    position.nextPosition(xDirection, yDirection);
+                    originalBlock=background.getData(position);
+                    background.setData(position, BlockType.BOMB);}
+                else{
+                    timer2.stop();
+                    explode();}
+            }
+        };
+        timer2= new Timer(100, fly);
+        timer2.setCoalesce(true);
+        timer2.start();
     }
 
     public void explode(){
@@ -59,7 +81,7 @@ public class Bomb {
 
         for(int i = 0; i <explosionRadius; i++){
             if (axis)
-                position.setX(position.getX()+n);
+                position.setX(position.getX() + n);
             else
                 position.setY(position.getY() + n);
             if(position.equals(player.getPosition())){
@@ -71,7 +93,11 @@ public class Bomb {
                 break;
             }
             else if (!background.getData(position).isDestructible()) {
-                break;
+                break;}
+            //fuling för att kunnna se explosionen
+            //finns del funktion i playfield, clearFromExplosion, anropas från moveRight i player
+            else{
+                background.setData(position, BlockType.EXPLOSION);
             }
         }
     }
