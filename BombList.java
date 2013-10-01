@@ -19,10 +19,6 @@ public class BombList {
         return myList.size();
     }
 
-    public boolean isEmpty() {
-        return myList.isEmpty();
-    }
-
     public void clear() {
         myList.clear();
     }
