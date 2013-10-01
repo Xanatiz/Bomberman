@@ -46,30 +46,18 @@ public class Position {
         return x==position.getX() && y==position.getY();
     }
 
-    public void nextRight(Playfield playfield){
+    public void nextRight(){
         x++;
-        if(!playfield.getData(this).isWalkable()){
-            x--;
-        }
     }
 
-    public void nextLeft(Playfield playfield){
+    public void nextLeft(){
         x--;
-        if(!playfield.getData(this).isWalkable()){
-            x++;
-        }
     }
-    public void nextUp(Playfield playfield){
+    public void nextUp(){
         y--;
-        if(!playfield.getData(this).isWalkable()){
-            y++;
-        }
     }
 
-    public void nextDown(Playfield playfield){
+    public void nextDown(){
         y++;
-        if(!playfield.getData(this).isWalkable()){
-            y--;
-        }
     }
 }

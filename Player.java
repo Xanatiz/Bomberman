@@ -16,6 +16,7 @@ public class Player {
     private boolean alive;
     private int numberOfBombs;
     private int activeBombs;
+    private boolean kickBomb;
 
     public Player(Position position, Playfield background) {
         this.position = position;
@@ -24,6 +25,7 @@ public class Player {
         this.alive = true;
         this.numberOfBombs=1;
         this.activeBombs=0;
+        this.kickBomb=false;
     }
 
     public Position getPosition(){
@@ -38,28 +40,54 @@ public class Player {
         alive=false;
     }
 
-    public void improveNumberOfBombs(){
-        numberOfBombs++;
+    public void pickUp(){
+        if(background.getData(position)==BlockType.EXPLOSIONRADIUSBOOST){
+            explosionRadius++;}
+        else if(background.getData(position)==BlockType.BOMBBOOST){
+            numberOfBombs++;}
+        else if(background.getData(position)==BlockType.KICKBOMB){
+            kickBomb=true;
+            System.out.println(kickBomb);}
+        background.setData(position, BlockType.GROUND);
     }
 
-    public void improveExplosionRadius(){
-        explosionRadius++;
-    }
 
     public void moveRight(){
-        position.nextRight(background);
+        position.nextRight();
+        if(background.getData(position).isPickUp()){
+            pickUp();
+        }
+        else if(!background.getData(position).isWalkable()){
+            position.nextLeft();
+        }
     }
 
     public void moveLeft(){
-        position.nextLeft(background);
+        position.nextLeft();
+        if(background.getData(position).isPickUp()){
+            pickUp();
+        }
+        else if(!background.getData(position).isWalkable()){
+            position.nextRight();
+        }
     }
-
     public void moveUp(){
-        position.nextUp(background);
+        position.nextUp();
+        if(background.getData(position).isPickUp()){
+            pickUp();
+        }
+        else if(!background.getData(position).isWalkable()){
+            position.nextDown();
+        }
     }
-
     public void moveDown(){
-        position.nextDown(background);
+        position.nextDown();
+        if(background.getData(position).isPickUp()){
+            pickUp();
+        }
+        else if(!background.getData(position).isWalkable()){
+            position.nextUp();
+        }
     }
 
     public void dropBomb(){

@@ -29,7 +29,7 @@ public class Playfield {
                     this.fieldArray[i][j]=BlockType.WALL;}
                 else if((i==1&&j<4)||(i<4&&j==1)||(i==this.row-2&&j>this.column-5)||(i>this.row-5&&j==this.column-2)){
                     this.fieldArray[i][j]=BlockType.SPAWNGROUND;}
-                else if((random.nextInt(100)<79)){
+                else if((random.nextInt(100)<=79)){
                     this.fieldArray[i][j]=BlockType.BOX;
                 }
                 else{
@@ -39,19 +39,38 @@ public class Playfield {
         }
     }
 
+    public void placeReplacement(Position position){
+        Random random = new Random();
+        int ifPowerUp = random.nextInt(100);
+        int whichBox = random.nextInt(100);
+        System.out.println(fieldArray[position.getY()][position.getX()]==BlockType.BOX);
+        if(fieldArray[position.getY()][position.getX()]==BlockType.BOX){
+            if(whichBox<=32&&ifPowerUp<=49){
+                fieldArray[position.getY()][position.getX()]=BlockType.EXPLOSIONRADIUSBOOST;}
+            else if(32<whichBox&&whichBox<=65&&ifPowerUp<=49){
+                fieldArray[position.getY()][position.getX()]=BlockType.BOMBBOOST;}
+            else if(65<whichBox&&ifPowerUp<=49){
+                fieldArray[position.getY()][position.getX()]=BlockType.KICKBOMB;}
+            else{
+                fieldArray[position.getY()][position.getX()]=BlockType.GROUND;}
+        }
+        else{
+            fieldArray[position.getY()][position.getX()]=BlockType.GROUND;}
+    }
+
     public BlockType getData(int row, int column){
-        return this.fieldArray[row][column];
+        return fieldArray[row][column];
     }
 
     public BlockType getData(Position position){
-        return this.fieldArray[position.getY()][position.getX()];
+        return fieldArray[position.getY()][position.getX()];
     }
-/*
-    public void setData(int row, int column, BlockType data){
-        this.fieldArray[row][column]=data;
-        notifyListener();
-    }
-*/
+    /*
+        public void setData(int row, int column, BlockType data){
+            this.fieldArray[row][column]=data;
+            notifyListener();
+        }
+    */
     public void setData(Position position, BlockType data){
         this.fieldArray[position.getY()][position.getX()]=data;
         notifyListener();

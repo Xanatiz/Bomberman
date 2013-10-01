@@ -63,7 +63,7 @@ public class Bomb {
                 break;
             }
             else if(background.getData(position).isDestructible()&&!background.getData(position).isWalkable()){
-                background.setData(position, BlockType.GROUND);
+                background.placeReplacement(position);
                 break;
             }
             else if (!background.getData(position).isDestructible()) {
