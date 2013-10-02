@@ -12,12 +12,13 @@ public enum BlockType {
     WALL(Color.GRAY, false, false, false),
     GROUND(Color.WHITE, true, true, false),
     SPAWNGROUND(Color.WHITE, true, true, false),
-    PLAYER(Color.BLUE, false, true, false),
+    PLAYER1(Color.BLUE, false, true, false),
+    PLAYER2(Color.RED, false, true, false),
     BOMB(Color.BLACK, false, true, false),
     EXPLOSION(Color.YELLOW, false, false, false),
     EXPLOSIONRADIUSBOOST(Color.PINK, false, true, true),
     BOMBBOOST(Color.GREEN, false, true, true),
-    KICKBOMB(Color.RED, false, true, true);
+    KICKBOMB(Color.MAGENTA, false, true, true);
 
     private final Color color;
     private final Boolean walkable;

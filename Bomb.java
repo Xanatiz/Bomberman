@@ -51,9 +51,10 @@ public class Bomb {
                     background.setData(position, originalBlock);
                     position.nextPosition(xDirection, yDirection);
                     originalBlock=background.getData(position);
-                    background.setData(position, BlockType.BOMB);}
-                else{
-                    explode();}
+                    background.setData(position, BlockType.BOMB);
+                }else{
+                    kickTimer.stop();
+                }
             }
         };
         kickTimer = new Timer(500, fly);
@@ -63,8 +64,6 @@ public class Bomb {
 
     public void explode(){
         bombTimer.stop();
-        if(kickTimer !=null)
-            kickTimer.stop();
         player.deactivateBomb(position);
         //kills player on top of the bomb
         if(position.equals(player.getPosition())){

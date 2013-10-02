@@ -1,6 +1,6 @@
 import javax.swing.*;
+import java.util.List;
 import java.awt.*;
-
 /**
  * Created with IntelliJ IDEA.
  * User: cake
@@ -12,9 +12,9 @@ import java.awt.*;
 public class GameFrame extends JFrame{
 
 
-    public GameFrame(Playfield background, Player player){
+    public GameFrame(Playfield background, List<Player> playerList){
         super("test");
-        GameComponent bomberman = new GameComponent(background, player);
+        GameComponent bomberman = new GameComponent(background, playerList);
         background.addListener(bomberman);
         this.setLayout(new BorderLayout());
         this.add(bomberman, BorderLayout.CENTER);
