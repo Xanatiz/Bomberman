@@ -54,8 +54,8 @@ public class Bomb {
             public void actionPerformed(ActionEvent actionEvent) {
                 newPosition.nextPosition(xDirection, yDirection);
                 //logiskt test med player är inte testat
-                for (int i = 0; i <= playerList.size()-1; i++) {
-                    if(background.getData(newPosition).isWalkable()&&(!newPosition.equals(playerList.get(i).getPosition()))){
+                //for (int i = 0; i <= playerList.size()-1; i++) {
+                    if(background.getData(newPosition).isWalkable()&&!newPosition.equals(playerList.get(0).getPosition())&&!newPosition.equals(playerList.get(1).getPosition())){
                         background.setData(position, originalBlock);
                         position.nextPosition(xDirection, yDirection);
                         originalBlock=background.getData(position);
@@ -63,7 +63,6 @@ public class Bomb {
                     }else{
                         kickTimer.stop();
                     }
-                }
             }
         };
         kickTimer = new Timer(500, fly);
@@ -73,6 +72,8 @@ public class Bomb {
 
     public void explode(){
         bombTimer.stop();
+        if(kickTimer!=null)
+            kickTimer.stop();
 
         playerList.get(id.read()).deactivateBomb(position);
         //kills player on top of the bomb
