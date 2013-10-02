@@ -9,7 +9,7 @@ import java.awt.event.ActionEvent;
  * To change this template use File | Settings | File Templates.
  */
 public class Bomb {
-    private Timer timer, timer2;
+    private Timer bombTimer, kickTimer;
     private int explosionRadius;
     private BlockType originalBlock;
     private Playfield background;
@@ -33,11 +33,11 @@ public class Bomb {
                 explode();
             }
         };
-        timer = new Timer(3000, explode);
         originalBlock = background.getData(position);
         background.setData(position, BlockType.BOMB);
-        timer.setCoalesce(true);
-        timer.start();
+        bombTimer = new Timer(3000, explode);
+        bombTimer.setCoalesce(true);
+        bombTimer.start();
     }
 
     public void kick(final int xDirection, final int yDirection){
@@ -53,17 +53,18 @@ public class Bomb {
                     originalBlock=background.getData(position);
                     background.setData(position, BlockType.BOMB);}
                 else{
-                    timer2.stop();
                     explode();}
             }
         };
-        timer2= new Timer(100, fly);
-        timer2.setCoalesce(true);
-        timer2.start();
+        kickTimer = new Timer(500, fly);
+        kickTimer.setCoalesce(true);
+        kickTimer.start();
     }
 
     public void explode(){
-        timer.stop();
+        bombTimer.stop();
+        if(kickTimer !=null)
+            kickTimer.stop();
         player.deactivateBomb(position);
         //kills player on top of the bomb
         if(position.equals(player.getPosition())){

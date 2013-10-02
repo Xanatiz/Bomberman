@@ -36,6 +36,7 @@ public class Position {
         y=newY;
     }
 
+    //hjälp funktion för att debuga
     public String put(){
         StringBuilder sb = new StringBuilder();
         sb.append("x: "+x+" y: "+y);
