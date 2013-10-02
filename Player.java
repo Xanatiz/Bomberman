@@ -1,3 +1,4 @@
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -8,9 +9,11 @@
  */
 public class Player {
 
+    private ID id;
     private Position position;
     private Playfield background;
     private BombList bombList;
+    private List<Player> playerList;
     private boolean alive;
     private int xDirection;
     private int yDirection;
@@ -19,10 +22,12 @@ public class Player {
     private int activeBombs;
     private boolean kickBomb;
 
-    public Player(Position position, Playfield background, BombList bombList) {
+    public Player(ID id, Position position, Playfield background, BombList bombList, List<Player> playerList) {
+        this.id = id;
         this.position = position;
         this.background = background;
         this.bombList=bombList;
+        this.playerList=playerList;
         this.alive = true;
         this.xDirection=0;
         this.yDirection=0;
@@ -30,6 +35,11 @@ public class Player {
         this.numberOfBombs=1;
         this.activeBombs=0;
         this.kickBomb=false;
+    }
+
+
+    public ID getId(){
+        return id;
     }
 
     public Position getPosition(){
@@ -130,7 +140,7 @@ public class Player {
 
     public void dropBomb(){
         if(activeBombs<numberOfBombs&&alive&&background.getData(position).isWalkable()){
-            Bomb bomb = new Bomb(new Position(position), explosionRadius, background, this);
+            Bomb bomb = new Bomb(id,new Position(position), explosionRadius, background, playerList);
             bombList.add(bomb);
             activeBombs++;
             bombList.activateBomb(position);

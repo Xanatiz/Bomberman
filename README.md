@@ -1,2 +1,5 @@
-visualisera explosioner
-
+- bomben kan bara döda player 1 och player 2.
+- vem dödar vem?
+- visualisera explosioner
+- snygga till och generalisera explosions metoderna
+- snygga till keyBindings

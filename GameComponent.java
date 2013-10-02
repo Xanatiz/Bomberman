@@ -27,9 +27,7 @@ public class GameComponent extends JComponent implements ListenerHandler {
     }
 
     public void paintComponent(Graphics g) {
-        //super.paintComponent(g);
         final Graphics2D g2 = (Graphics2D) g;
-
         for (int i = 0; i < background.getRow(); i++) {
             for (int j = 0; j < background.getColumn(); j++) {
                 for (int p = 0; p <= playerList.size() - 1; p++) {
@@ -56,13 +54,11 @@ public class GameComponent extends JComponent implements ListenerHandler {
         InputMap map1 = getInputMap(JComponent.WHEN_FOCUSED);
         InputMap map2 = getInputMap(JComponent.WHEN_FOCUSED);
 
-
         map1.put(KeyStroke.getKeyStroke("UP"), "moveUp");
         map1.put(KeyStroke.getKeyStroke("DOWN"), "moveDown");
         map1.put(KeyStroke.getKeyStroke("RIGHT"), "moveRight");
         map1.put(KeyStroke.getKeyStroke("LEFT"), "moveLeft");
         map2.put(KeyStroke.getKeyStroke("ENTER"), "dropBomb");
-
 
         Action moveUp = new AbstractAction() {
             @Override
@@ -109,8 +105,10 @@ public class GameComponent extends JComponent implements ListenerHandler {
         getActionMap().put("dropBomb", dropBomb);
 
 
+
         InputMap map3 = getInputMap(JComponent.WHEN_FOCUSED);
         InputMap map4 = getInputMap(JComponent.WHEN_FOCUSED);
+
         map3.put(KeyStroke.getKeyStroke("W"), "moveUp2");
         map3.put(KeyStroke.getKeyStroke("S"), "moveDown2");
         map3.put(KeyStroke.getKeyStroke("D"), "moveRight2");
@@ -161,9 +159,7 @@ public class GameComponent extends JComponent implements ListenerHandler {
         getActionMap().put("moveLeft2", moveLeft2);
         getActionMap().put("dropBomb2", dropBomb2);
 
-
     }
-
 
 }
 

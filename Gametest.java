@@ -12,8 +12,11 @@ public class Gametest {
     public static void main(String[] args) {
         int row = 21;
         int column = 21;
+        int numberOfPlayers = 2;
         Position startPosition1 = new Position(1,1);
-        Position startPosition2 = new Position(row-2, column-2);
+        Position startPosition2 = new Position(1, 2);
+
+        //Position startPosition2 = new Position(row-2, column-2);
 
         Playfield background = new Playfield(row, column);
         background.fillFieldArray();
@@ -21,9 +24,9 @@ public class Gametest {
 
         List<Player> playerList = new ArrayList<Player>();
 
-        Player player1 = new Player(startPosition1, background, bombList);
+        Player player1 = new Player(new ID(0), startPosition1, background, bombList, playerList);
         playerList.add(player1);
-        Player player2 = new Player(startPosition2, background, bombList);
+        Player player2 = new Player(new ID(1), startPosition2, background, bombList, playerList);
         playerList.add(player2);
 
 

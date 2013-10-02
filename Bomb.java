@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.event.ActionEvent;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -9,18 +10,24 @@ import java.awt.event.ActionEvent;
  * To change this template use File | Settings | File Templates.
  */
 public class Bomb {
+    private ID id;
     private Timer bombTimer, kickTimer;
     private int explosionRadius;
     private BlockType originalBlock;
     private Playfield background;
-    private Player player;
     private Position position;
+    private List<Player> playerList;
 
-    public Bomb(Position position, int explosionRadius, Playfield background, Player player){
+    public Bomb(ID id, Position position, int explosionRadius, Playfield background, List<Player> playerList){
+        this.id = id;
         this.position=position;
         this.explosionRadius = explosionRadius;
         this.background=background;
-        this.player=player;
+        this.playerList=playerList;
+    }
+
+    public ID getId(){
+        return id;
     }
 
     public Position getPosition(){
@@ -47,13 +54,15 @@ public class Bomb {
             public void actionPerformed(ActionEvent actionEvent) {
                 newPosition.nextPosition(xDirection, yDirection);
                 //logiskt test med player är inte testat
-                if(background.getData(newPosition).isWalkable()&&(!newPosition.equals(player.getPosition()))){
-                    background.setData(position, originalBlock);
-                    position.nextPosition(xDirection, yDirection);
-                    originalBlock=background.getData(position);
-                    background.setData(position, BlockType.BOMB);
-                }else{
-                    kickTimer.stop();
+                for (int i = 0; i <= playerList.size()-1; i++) {
+                    if(background.getData(newPosition).isWalkable()&&(!newPosition.equals(playerList.get(i).getPosition()))){
+                        background.setData(position, originalBlock);
+                        position.nextPosition(xDirection, yDirection);
+                        originalBlock=background.getData(position);
+                        background.setData(position, BlockType.BOMB);
+                    }else{
+                        kickTimer.stop();
+                    }
                 }
             }
         };
@@ -64,10 +73,14 @@ public class Bomb {
 
     public void explode(){
         bombTimer.stop();
-        player.deactivateBomb(position);
+
+        playerList.get(id.read()).deactivateBomb(position);
         //kills player on top of the bomb
-        if(position.equals(player.getPosition())){
-            player.kill();}
+        for (int i = 0; i <= playerList.size()-1; i++) {
+            if(position.equals(playerList.get(i).getPosition())){
+                playerList.get(i).kill();
+            }
+        }
         explosionRadius(new Position(position), true, 1);
         explosionRadius(new Position(position), true, -1);
         explosionRadius(new Position(position), false, 1);
@@ -84,21 +97,24 @@ public class Bomb {
                 position.setX(position.getX() + n);
             else
                 position.setY(position.getY() + n);
-            if(position.equals(player.getPosition())){
-                player.kill();
+            //for (int j = 0; j <= playerList.size()-1; j++) {
+            if(position.equals(playerList.get(0).getPosition())){
+                playerList.get(0).kill();
                 break;
-            }
-            else if(background.getData(position).isDestructible()&&!background.getData(position).isWalkable()){
+            }else if(position.equals(playerList.get(1).getPosition())){
+                playerList.get(1).kill();
+                break;
+            } else if(background.getData(position).isDestructible()&&!background.getData(position).isWalkable()){
                 background.placeReplacement(position);
                 break;
+            }else if (!background.getData(position).isDestructible()) {
+                break;
             }
-            else if (!background.getData(position).isDestructible()) {
-                break;}
             //fuling för att kunnna se explosionen
             //finns del funktion i playfield, clearFromExplosion, anropas från moveRight i player
-            else{
-                background.setData(position, BlockType.EXPLOSION);
-            }
+            //else{
+            // background.setData(position, BlockType.EXPLOSION);
+            // }
         }
     }
 }
