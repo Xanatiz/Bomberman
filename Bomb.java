@@ -9,7 +9,6 @@ import java.awt.event.ActionEvent;
  * To change this template use File | Settings | File Templates.
  */
 public class Bomb {
-    private BlockType oldBlock;
     private ID id;
     private Timer bombTimer, kickTimer, flameTimer;
     private int explosionRadius;
@@ -90,7 +89,6 @@ public class Bomb {
         flameTimer = new Timer(300, flame);
         flameTimer.setCoalesce(true);
         flameTimer.start();
-        background.updatePlayfield();
 
     }
     public void explodeEast(Position position){
@@ -137,7 +135,7 @@ public class Bomb {
             else if(Main.bombList.contains(position))
                 Main.bombList.explodeBomb(position);
             else if(background.getData(position).isDestructible())
-                background.placeReplacement(position);
+                background.replaceBox(position);
             else if(background.getData(position).isWalkable())
                 proceed=true;
             Main.explosionList.push(new Position(position));

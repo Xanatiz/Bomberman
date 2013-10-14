@@ -21,7 +21,7 @@ public class Playfield {
         this.fieldArray = new BlockType[row][column];
     }
 
-    public void fillFieldArray(){
+    public void fillBackground(){
         Random random = new Random();
         for(int i=0; i < this.row; i++){
             for(int j=0; j < this.column; j++){
@@ -39,17 +39,17 @@ public class Playfield {
         }
     }
 
-    public void placeReplacement(Position position){
+    public void replaceBox(Position position){
         Random random = new Random();
         int ifPowerUp = random.nextInt(100);
         int whichBox = random.nextInt(100);
 
         if(fieldArray[position.getY()][position.getX()]==BlockType.BOX){
-            if(whichBox<=32&&ifPowerUp<=49){
+            if(whichBox<=32&&ifPowerUp<=32){
                 fieldArray[position.getY()][position.getX()]=BlockType.EXPLOSIONRADIUSBOOST;
-            }else if(32<whichBox&&whichBox<=65&&ifPowerUp<=49){
+            }else if(32<whichBox&&whichBox<=65&&ifPowerUp<=32){
                 fieldArray[position.getY()][position.getX()]=BlockType.BOMBBOOST;
-            }else if(65<whichBox&&ifPowerUp<=49){
+            }else if(65<whichBox&&ifPowerUp<=32){
                 fieldArray[position.getY()][position.getX()]=BlockType.KICKBOMB;
             }else{
                 fieldArray[position.getY()][position.getX()]=BlockType.GROUND;
@@ -59,24 +59,14 @@ public class Playfield {
         }
     }
 
-   /* public BlockType getData(int row, int column){
-        return fieldArray[row][column];
-    }*/
-
     public BlockType getData(Position position){
         return fieldArray[position.getY()][position.getX()];
     }
-    /*
-        public void setData(int row, int column, BlockType data){
-            this.fieldArray[row][column]=data;
-            notifyListener();
-        }
-    */
+
     public void setData(Position position, BlockType data){
         this.fieldArray[position.getY()][position.getX()]=data;
         notifyListener();
     }
-
 
     public int getRow() {
         return row;

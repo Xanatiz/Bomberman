@@ -32,10 +32,6 @@ public class Queue {
            return false;
        }
 
-    /*public boolean contains(Position position) {
-        return myList.contains(position);
-    }*/
-
     public void clear() {
         myList.clear();
     }
