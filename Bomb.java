@@ -1,7 +1,5 @@
 import javax.swing.*;
 import java.awt.event.ActionEvent;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -17,18 +15,14 @@ public class Bomb {
     private int explosionRadius;
     private Playfield background;
     private Position position;
-    private PlayerList playerList;
-    private BombList bombList;
-    private List<Position> explosionPositions = new ArrayList<Position>();
+    private int numberOfExplosions;
 
-    public Bomb(ID id, Position position, int explosionRadius, Playfield background, PlayerList playerList, BombList bombList){
+    public Bomb(ID id, Position position, int explosionRadius, Playfield background){
         this.id = id;
         this.position=position;
         this.explosionRadius = explosionRadius;
         this.background=background;
-        this.playerList=playerList;
-        this.bombList=bombList;
-    }
+       }
 
     public ID getId(){
         return id;
@@ -55,7 +49,7 @@ public class Bomb {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 newPosition.nextPosition(xDirection, yDirection);
-                if(background.getData(newPosition).isWalkable()&&!playerList.contains(position))
+                if(background.getData(newPosition).isWalkable()&&!Main.playerList.contains(position))
                     position.nextPosition(xDirection, yDirection);
                 else
                     kickTimer.stop();
@@ -63,7 +57,7 @@ public class Bomb {
                 background.updatePlayfield();
             }
         };
-        kickTimer = new Timer(500, fly);
+        kickTimer = new Timer(300, fly);
         kickTimer.setCoalesce(true);
         kickTimer.start();
     }
@@ -72,7 +66,7 @@ public class Bomb {
         if(kickTimer!=null)
             kickTimer.stop();
 
-        playerList.get(id).deactivateBomb(position);
+        Main.playerList.get(id).deactivateBomb(position);
 
         //first check on top of bomb, then each way
         checkAndStore(position);
@@ -80,27 +74,25 @@ public class Bomb {
         explodeWest(position);
         explodeSouth(position);
         explodeNorth(position);
-        //for(int f = 0; f<=explosionPositions.size()-1; f++)
-            //System.out.println(explosionPositions.get(f).put());
-            //flame(explosionPositions.get(f));
         background.updatePlayfield();
 
-    }
-    public void flame(final Position position){
         final Action flame = new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 flameTimer.stop();
-                background.setData(position, oldBlock);
+                while(numberOfExplosions>0){
+                    Main.explosionList.pop();
+                    numberOfExplosions--;
+                }
+                background.updatePlayfield();
             }
         };
-        oldBlock=background.getData(position);
         flameTimer = new Timer(300, flame);
         flameTimer.setCoalesce(true);
         flameTimer.start();
-        background.setData(position, BlockType.EXPLOSION);
-    }
+        background.updatePlayfield();
 
+    }
     public void explodeEast(Position position){
         Position testPosition = new Position(position);
         for(int x = position.getX()+1; x <= position.getX()+explosionRadius; x++){
@@ -139,16 +131,17 @@ public class Bomb {
 
     public boolean checkAndStore(Position position){
         boolean proceed = false;
-        if(background.legal(position)){
-            if(playerList.contains(position))
-                playerList.get(position).kill();
-            else if(bombList.contains(position))
-                bombList.explodeBomb(position);
+        if(background.legal(position)&&(background.getData(position)!=BlockType.WALL)){
+            if(Main.playerList.contains(position))
+                Main.playerList.get(position).kill();
+            else if(Main.bombList.contains(position))
+                Main.bombList.explodeBomb(position);
             else if(background.getData(position).isDestructible())
                 background.placeReplacement(position);
             else if(background.getData(position).isWalkable())
                 proceed=true;
-            explosionPositions.add(position);
+            Main.explosionList.push(new Position(position));
+            numberOfExplosions++;
         }
 
         return proceed;

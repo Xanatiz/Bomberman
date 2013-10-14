@@ -11,8 +11,6 @@ public class Player {
     private ID id;
     private Position position;
     private Playfield background;
-    private BombList bombList;
-    private PlayerList playerList;
     private boolean alive;
     private int xDirection;
     private int yDirection;
@@ -21,12 +19,10 @@ public class Player {
     private int activeBombs;
     private boolean kickBombAbility;
 
-    public Player(ID id, Position position, Playfield background, BombList bombList, PlayerList playerList) {
+    public Player(ID id, Position position, Playfield background) {
         this.id = id;
         this.position = position;
         this.background = background;
-        this.bombList = bombList;
-        this.playerList = playerList;
         this.alive = true;
         this.xDirection = 0;
         this.yDirection = 0;
@@ -72,9 +68,9 @@ public class Player {
             yDirection = 0;
             if (background.getData(position).isPickUp()) {
                 pickUp();
-            } else if (bombList.contains(position)) {
+            } else if (Main.bombList.contains(position)) {
                 if (kickBombAbility)
-                    bombList.kickBomb(position, xDirection, yDirection);
+                    Main.bombList.kickBomb(position, xDirection, yDirection);
                 position.nextLeft();
             } else if (!background.getData(position).isWalkable()) {
                 position.nextLeft();
@@ -89,9 +85,9 @@ public class Player {
             yDirection = 0;
             if (background.getData(position).isPickUp()) {
                 pickUp();
-            } else if (bombList.contains(position)) {
+            } else if (Main.bombList.contains(position)) {
                 if (kickBombAbility)
-                    bombList.kickBomb(position, xDirection, yDirection);
+                    Main.bombList.kickBomb(position, xDirection, yDirection);
                 position.nextRight();
             } else if (!background.getData(position).isWalkable()) {
                 position.nextRight();
@@ -106,9 +102,9 @@ public class Player {
             yDirection = -1;
             if (background.getData(position).isPickUp()) {
                 pickUp();
-            } else if (bombList.contains(position)) {
+            } else if (Main.bombList.contains(position)) {
                 if (kickBombAbility)
-                    bombList.kickBomb(position, xDirection, yDirection);
+                    Main.bombList.kickBomb(position, xDirection, yDirection);
                 position.nextDown();
             } else if (!background.getData(position).isWalkable()) {
                 position.nextDown();
@@ -123,9 +119,9 @@ public class Player {
             yDirection = 1;
             if (background.getData(position).isPickUp()) {
                 pickUp();
-            } else if (bombList.contains(position)) {
+            } else if (Main.bombList.contains(position)) {
                 if (kickBombAbility)
-                    bombList.kickBomb(position, xDirection, yDirection);
+                    Main.bombList.kickBomb(position, xDirection, yDirection);
                 position.nextUp();
             } else if (!background.getData(position).isWalkable()) {
                 position.nextUp();
@@ -135,15 +131,15 @@ public class Player {
 
     public void dropBomb() {
         if (activeBombs < numberOfBombs && alive && background.getData(position).isWalkable()) {
-            Bomb bomb = new Bomb(id, new Position(position), explosionRadius, background, playerList, bombList);
-            bombList.add(bomb);
+            Bomb bomb = new Bomb(id, new Position(position), explosionRadius, background);
+            Main.bombList.add(bomb);
             activeBombs++;
-            bombList.activateBomb(position);
+            Main.bombList.activateBomb(position);
         }
     }
 
     public void deactivateBomb(Position position) {
-        bombList.remove(position);
+        Main.bombList.remove(position);
         activeBombs--;
     }
 

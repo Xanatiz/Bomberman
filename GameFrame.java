@@ -11,9 +11,9 @@ import java.awt.*;
 public class GameFrame extends JFrame{
 
 
-    public GameFrame(Playfield background, PlayerList playerList, BombList bombList){
+    public GameFrame(Playfield background){
         super("BOMBERMAN");
-        GameComponent bomberman = new GameComponent(background, playerList, bombList);
+        GameComponent bomberman = new GameComponent(background);
         background.addListener(bomberman);
         this.setLayout(new BorderLayout());
         this.add(bomberman, BorderLayout.CENTER);

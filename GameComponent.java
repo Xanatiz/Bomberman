@@ -11,13 +11,9 @@ import java.awt.event.ActionEvent;
  */
 public class GameComponent extends JComponent implements ListenerHandler {
     private Playfield background;
-    private PlayerList playerList;
-    private BombList bombList;
 
-    public GameComponent(Playfield background, PlayerList playerList, BombList bombList) { //, List<Flame> flameList) {
+    public GameComponent(Playfield background) {
         this.background = background;
-        this.playerList = playerList;
-        this.bombList = bombList;
         this.setLayout(new BorderLayout());
         addBindings();
     }
@@ -36,15 +32,21 @@ public class GameComponent extends JComponent implements ListenerHandler {
     }
 
     public void paintPosition(Graphics g2, Position position){
-        if (playerList.contains(position) && playerList.get(position).isAlive()){
-            if(playerList.get(position).getId().read()==1)
+        if (Main.playerList.contains(position) && Main.playerList.get(position).isAlive()){
+            if(Main.playerList.get(position).getId().read()==1)
                 g2.setColor(BlockType.PLAYER1.getColor());
             else
                 g2.setColor(BlockType.PLAYER2.getColor());
             g2.fillRect(position.getX() * 20, position.getY() * 20, 20, 20);
-        } else if (bombList.contains(position)){
+
+        } else if (Main.bombList.contains(position)){
             g2.setColor(BlockType.BOMB.getColor());
             g2.fillRect(position.getX() * 20, position.getY() * 20, 20, 20);
+
+        } else if (Main.explosionList.contains(position)){
+            g2.setColor(BlockType.EXPLOSION.getColor());
+            g2.fillRect(position.getX() * 20, position.getY() * 20, 20, 20);
+
         } else {
             g2.setColor(background.getData(position).getColor());
             g2.fillRect(position.getX() * 20, position.getY() * 20, 20, 20);
@@ -55,8 +57,8 @@ public class GameComponent extends JComponent implements ListenerHandler {
     private void addBindings() {
         final ID id1 = new ID(1);
         final ID id2 = new ID(2);
-        InputMap map1 = getInputMap(JComponent.WHEN_FOCUSED);
-        InputMap map2 = getInputMap(JComponent.WHEN_FOCUSED);
+        InputMap map1 = getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        InputMap map2 = getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
 
         map1.put(KeyStroke.getKeyStroke("UP"), "moveUp");
         map1.put(KeyStroke.getKeyStroke("DOWN"), "moveDown");
@@ -67,14 +69,14 @@ public class GameComponent extends JComponent implements ListenerHandler {
         Action moveUp = new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                playerList.get(id2).moveUp();
+                Main.playerList.get(id2).moveUp();
                 updateBoard();
             }
         };
         Action moveDown = new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                playerList.get(id2).moveDown();
+                Main.playerList.get(id2).moveDown();
                 updateBoard();
             }
         };
@@ -82,14 +84,14 @@ public class GameComponent extends JComponent implements ListenerHandler {
         Action moveRight = new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                playerList.get(id2).moveRight();
+                Main.playerList.get(id2).moveRight();
                 updateBoard();
             }
         };
         Action moveLeft = new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                playerList.get(id2).moveLeft();
+                Main.playerList.get(id2).moveLeft();
                 updateBoard();
             }
         };
@@ -97,7 +99,7 @@ public class GameComponent extends JComponent implements ListenerHandler {
         Action dropBomb = new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                playerList.get(id2).dropBomb();
+                Main.playerList.get(id2).dropBomb();
                 updateBoard();
             }
         };
@@ -110,8 +112,8 @@ public class GameComponent extends JComponent implements ListenerHandler {
 
 
 
-        InputMap map3 = getInputMap(JComponent.WHEN_FOCUSED);
-        InputMap map4 = getInputMap(JComponent.WHEN_FOCUSED);
+        InputMap map3 = getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        InputMap map4 = getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
 
         map3.put(KeyStroke.getKeyStroke("W"), "moveUp2");
         map3.put(KeyStroke.getKeyStroke("S"), "moveDown2");
@@ -122,14 +124,14 @@ public class GameComponent extends JComponent implements ListenerHandler {
         Action moveUp2 = new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                playerList.get(id1).moveUp();
+                Main.playerList.get(id1).moveUp();
                 updateBoard();
             }
         };
         Action moveDown2 = new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                playerList.get(id1).moveDown();
+                Main.playerList.get(id1).moveDown();
                 updateBoard();
             }
         };
@@ -137,14 +139,14 @@ public class GameComponent extends JComponent implements ListenerHandler {
         Action moveRight2 = new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                playerList.get(id1).moveRight();
+                Main.playerList.get(id1).moveRight();
                 updateBoard();
             }
         };
         Action moveLeft2 = new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                playerList.get(id1).moveLeft();
+                Main.playerList.get(id1).moveLeft();
                 updateBoard();
             }
         };
@@ -152,7 +154,7 @@ public class GameComponent extends JComponent implements ListenerHandler {
         Action dropBomb2 = new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                playerList.get(id1).dropBomb();
+                Main.playerList.get(id1).dropBomb();
                 updateBoard();
             }
         };

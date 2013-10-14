@@ -43,6 +43,7 @@ public class PlayerList {
             }
         }
     }
+
     //bygger på att players alltid ligger kvar i listan,
     //tas en spelare bort hänger inte id och position i listan ihop.
     public Player get(ID id){
