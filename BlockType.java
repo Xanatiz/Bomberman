@@ -10,12 +10,12 @@ import java.awt.*;
 public enum BlockType {
     BOX(Color.ORANGE, false, true, false),
     WALL(Color.GRAY, false, false, false),
-    GROUND(Color.WHITE, true, true, false),
-    SPAWNGROUND(Color.WHITE, true, true, false),
+    GROUND(Color.WHITE, true, false, false),
+    SPAWNGROUND(Color.WHITE, true, false, false),
     PLAYER1(Color.BLUE, false, true, false),
     PLAYER2(Color.RED, false, true, false),
     BOMB(Color.BLACK, false, true, false),
-    EXPLOSION(Color.YELLOW, false, false, false),
+    EXPLOSION(Color.YELLOW, true, true, false),
     EXPLOSIONRADIUSBOOST(Color.PINK, false, true, true),
     BOMBBOOST(Color.GREEN, false, true, true),
     KICKBOMB(Color.MAGENTA, false, true, true);

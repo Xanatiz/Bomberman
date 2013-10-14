@@ -22,6 +22,14 @@ public class BombList {
     public void clear() {
         myList.clear();
     }
+    public boolean contains(Position position){
+        for (int i = 0; i <= myList.size()-1; i++) {
+            if(myList.get(i).getPosition().equals(position)){
+                return true;
+            }
+        }
+        return false;
+    }
 
     public void add(Bomb bomb){
         myList.add(bomb);
@@ -44,6 +52,15 @@ public class BombList {
             }
         }
     }
+    public void explodeBomb(Position position){
+         for (int i = 0; i <= myList.size()-1; i++) {
+             if(myList.get(i).getPosition().equals(position)){
+                 myList.get(i).explode();
+                 break;
+             }
+         }
+     }
+
 
     public void kickBomb(Position position, int xDirection, int yDirection){
         for (int i = 0; i <= myList.size()-1; i++) {

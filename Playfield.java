@@ -46,21 +46,22 @@ public class Playfield {
 
         if(fieldArray[position.getY()][position.getX()]==BlockType.BOX){
             if(whichBox<=32&&ifPowerUp<=49){
-                fieldArray[position.getY()][position.getX()]=BlockType.EXPLOSIONRADIUSBOOST;}
-            else if(32<whichBox&&whichBox<=65&&ifPowerUp<=49){
-                fieldArray[position.getY()][position.getX()]=BlockType.BOMBBOOST;}
-            else if(65<whichBox&&ifPowerUp<=49){
-                fieldArray[position.getY()][position.getX()]=BlockType.KICKBOMB;}
-            else{
-                fieldArray[position.getY()][position.getX()]=BlockType.GROUND;}
+                fieldArray[position.getY()][position.getX()]=BlockType.EXPLOSIONRADIUSBOOST;
+            }else if(32<whichBox&&whichBox<=65&&ifPowerUp<=49){
+                fieldArray[position.getY()][position.getX()]=BlockType.BOMBBOOST;
+            }else if(65<whichBox&&ifPowerUp<=49){
+                fieldArray[position.getY()][position.getX()]=BlockType.KICKBOMB;
+            }else{
+                fieldArray[position.getY()][position.getX()]=BlockType.GROUND;
+            }
+        }else{
+            fieldArray[position.getY()][position.getX()]=BlockType.GROUND;
         }
-        else{
-            fieldArray[position.getY()][position.getX()]=BlockType.GROUND;}
     }
 
-    public BlockType getData(int row, int column){
+   /* public BlockType getData(int row, int column){
         return fieldArray[row][column];
-    }
+    }*/
 
     public BlockType getData(Position position){
         return fieldArray[position.getY()][position.getX()];
@@ -85,24 +86,21 @@ public class Playfield {
         return column;
     }
 
+    public void updatePlayfield(){
+        notifyListener();
+    }
+
     public void addListener(ListenerHandler lh){
         this.myListener.add(lh);
     }
 
     private void notifyListener(){
-        for (int i = 0; i < myListener.size(); i++) {
-            ListenerHandler tmp = myListener.get(i);
+       for (ListenerHandler tmp : myListener) {
             tmp.updateBoard();
         }
     }
 
-    public void clearFromExplosion(){
-        for(int i=0; i < this.row; i++){
-                  for(int j=0; j < this.column; j++){
-            if(fieldArray[i][j]==BlockType.EXPLOSION)
-                fieldArray[i][j]=BlockType.GROUND;
-            }
-        }
-        notifyListener();
+    public boolean legal(Position position){
+        return (position.getX() >= 0 && position.getX() <= column && position.getY() >= 0 && position.getY() <= row);
     }
 }

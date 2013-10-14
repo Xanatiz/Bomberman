@@ -1,8 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.geom.Rectangle2D;
-import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -13,11 +11,13 @@ import java.util.List;
  */
 public class GameComponent extends JComponent implements ListenerHandler {
     private Playfield background;
-    private List<Player> playerList;
+    private PlayerList playerList;
+    private BombList bombList;
 
-    public GameComponent(Playfield background, List<Player> playerList) {
+    public GameComponent(Playfield background, PlayerList playerList, BombList bombList) { //, List<Flame> flameList) {
         this.background = background;
         this.playerList = playerList;
+        this.bombList = bombList;
         this.setLayout(new BorderLayout());
         addBindings();
     }
@@ -30,27 +30,31 @@ public class GameComponent extends JComponent implements ListenerHandler {
         final Graphics2D g2 = (Graphics2D) g;
         for (int i = 0; i < background.getRow(); i++) {
             for (int j = 0; j < background.getColumn(); j++) {
-                for (int p = 0; p <= playerList.size() - 1; p++) {
-                    if (playerList.get(p).getPosition().getX() == j && playerList.get(p).getPosition().getY() == i && playerList.get(p).isAlive()){
-                        if (p == 0){
-                            g2.setColor(BlockType.PLAYER1.getColor());
-                            g2.fillRect(j * 20, i * 20, 20, 20);
-                            break;
-                        }else{
-                            g2.setColor(BlockType.PLAYER2.getColor());
-                            g2.fillRect(j * 20, i * 20, 20, 20);
-                            break;
-                        }
-                    }else{
-                        g2.setColor(background.getData(i, j).getColor());
-                        g2.fillRect(j * 20, i * 20, 20, 20);
-                    }
-                }
+                paintPosition(g2 ,new Position(i, j));
             }
         }
     }
 
+    public void paintPosition(Graphics g2, Position position){
+        if (playerList.contains(position) && playerList.get(position).isAlive()){
+            if(playerList.get(position).getId().read()==1)
+                g2.setColor(BlockType.PLAYER1.getColor());
+            else
+                g2.setColor(BlockType.PLAYER2.getColor());
+            g2.fillRect(position.getX() * 20, position.getY() * 20, 20, 20);
+        } else if (bombList.contains(position)){
+            g2.setColor(BlockType.BOMB.getColor());
+            g2.fillRect(position.getX() * 20, position.getY() * 20, 20, 20);
+        } else {
+            g2.setColor(background.getData(position).getColor());
+            g2.fillRect(position.getX() * 20, position.getY() * 20, 20, 20);
+        }
+    }
+
+
     private void addBindings() {
+        final ID id1 = new ID(1);
+        final ID id2 = new ID(2);
         InputMap map1 = getInputMap(JComponent.WHEN_FOCUSED);
         InputMap map2 = getInputMap(JComponent.WHEN_FOCUSED);
 
@@ -63,14 +67,14 @@ public class GameComponent extends JComponent implements ListenerHandler {
         Action moveUp = new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                playerList.get(0).moveUp();
+                playerList.get(id2).moveUp();
                 updateBoard();
             }
         };
         Action moveDown = new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                playerList.get(0).moveDown();
+                playerList.get(id2).moveDown();
                 updateBoard();
             }
         };
@@ -78,14 +82,14 @@ public class GameComponent extends JComponent implements ListenerHandler {
         Action moveRight = new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                playerList.get(0).moveRight();
+                playerList.get(id2).moveRight();
                 updateBoard();
             }
         };
         Action moveLeft = new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                playerList.get(0).moveLeft();
+                playerList.get(id2).moveLeft();
                 updateBoard();
             }
         };
@@ -93,7 +97,7 @@ public class GameComponent extends JComponent implements ListenerHandler {
         Action dropBomb = new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                playerList.get(0).dropBomb();
+                playerList.get(id2).dropBomb();
                 updateBoard();
             }
         };
@@ -118,14 +122,14 @@ public class GameComponent extends JComponent implements ListenerHandler {
         Action moveUp2 = new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                playerList.get(1).moveUp();
+                playerList.get(id1).moveUp();
                 updateBoard();
             }
         };
         Action moveDown2 = new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                playerList.get(1).moveDown();
+                playerList.get(id1).moveDown();
                 updateBoard();
             }
         };
@@ -133,14 +137,14 @@ public class GameComponent extends JComponent implements ListenerHandler {
         Action moveRight2 = new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                playerList.get(1).moveRight();
+                playerList.get(id1).moveRight();
                 updateBoard();
             }
         };
         Action moveLeft2 = new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                playerList.get(1).moveLeft();
+                playerList.get(id1).moveLeft();
                 updateBoard();
             }
         };
@@ -148,7 +152,7 @@ public class GameComponent extends JComponent implements ListenerHandler {
         Action dropBomb2 = new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                playerList.get(1).dropBomb();
+                playerList.get(id1).dropBomb();
                 updateBoard();
             }
         };

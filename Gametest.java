@@ -13,30 +13,23 @@ public class Gametest {
         int row = 21;
         int column = 21;
         int numberOfPlayers = 2;
-        Position startPosition1 = new Position(1,1);
-        Position startPosition2 = new Position(1, 2);
-
-        //Position startPosition2 = new Position(row-2, column-2);
+        List<Position> startPositions = new ArrayList<Position>();
+        startPositions.add(new Position(1, 1));
+        startPositions.add(new Position(row-2, column-2));
 
         Playfield background = new Playfield(row, column);
         background.fillFieldArray();
         BombList bombList = new BombList();
+        PlayerList playerList = new PlayerList();
 
-        List<Player> playerList = new ArrayList<Player>();
-
-        Player player1 = new Player(new ID(0), startPosition1, background, bombList, playerList);
-        playerList.add(player1);
-        Player player2 = new Player(new ID(1), startPosition2, background, bombList, playerList);
-        playerList.add(player2);
-
+        for(int i = 1; i<=numberOfPlayers; i++)
+            playerList.add(new Player(new ID(i), startPositions.get(i-1), background, bombList, playerList));
 
         new Menu();
-        final GameFrame frame = new GameFrame(background, playerList);
+        final GameFrame frame = new GameFrame(background, playerList, bombList);
 
         frame.setSize(background.getRow() * 21, background.getColumn() * 21);
         frame.setVisible(true);
-
     }
-
-
 }
+
